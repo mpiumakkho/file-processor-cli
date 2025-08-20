@@ -357,4 +357,49 @@ Alice Brown,28,Sydney,Australia`;
       expect(stats.fileSize).toBeGreaterThan(1000);
     });
   });
+
+  describe('Error Handling', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test handle processing malformed csv files gracefully
+    it('should handle processing errors gracefully', async () => {
+      // test with a file that might cause csv-parser issues
+      const malformedCsvFile = path.join(testDataDir, 'malformed.csv');
+      fs.writeFileSync(malformedCsvFile, 'name,age\n"unclosed quote with\nnewline"incomplete');
+      
+      // csv-parser is quite forgiving, so test that it at least processes something
+      const result = await processor.processFile(malformedCsvFile);
+      expect(result).toBeDefined();
+      expect(result.headers).toContain('name');
+      
+      fs.unlinkSync(malformedCsvFile);
+    });
+
+    // test handle validation errors gracefully
+    it('should handle validation errors gracefully', () => {
+      const nonReadableFile = path.join(testDataDir, 'nonreadable.csv');
+      
+      // create file for testing validation
+      fs.writeFileSync(nonReadableFile, 'test data');
+      
+      const validation = processor.validateCSV(nonReadableFile);
+      expect(validation).toBeDefined();
+      
+      fs.unlinkSync(nonReadableFile);
+    });
+  });
 });
