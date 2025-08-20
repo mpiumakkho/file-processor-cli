@@ -106,4 +106,83 @@ Alice Brown,28,Sydney,Australia`;
       expect(result.data[0]).toEqual({ name: 'John', age: '30' });
     });
   });
+
+  describe('validateCSV', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+    const testCsvFile = path.join(testDataDir, 'test.csv');
+    const emptyCsvFile = path.join(testDataDir, 'empty.csv');
+    const invalidCsvFile = path.join(testDataDir, 'invalid.csv');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+
+      // create test CSV file
+      const testCsvContent = `name,age,city,country
+John Doe,30,New York,USA
+Jane Smith,25,London,UK`;
+      fs.writeFileSync(testCsvFile, testCsvContent);
+
+      // create empty CSV file
+      fs.writeFileSync(emptyCsvFile, '');
+
+      // create invalid CSV file with inconsistent columns
+      const invalidCsvContent = `name,age,city
+John Doe,30,New York,USA,Extra
+Jane Smith,25
+Bob Johnson,35,Toronto,Canada`;
+      fs.writeFileSync(invalidCsvFile, invalidCsvContent);
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test validate correct CSV file
+    it('should validate a correct CSV file', () => {
+      const validation = processor.validateCSV(testCsvFile);
+      
+      expect(validation.isValid).toBe(true);
+      expect(validation.errors).toHaveLength(0);
+    });
+
+    // test detect non-existent file
+    it('should detect non-existent file', () => {
+      const validation = processor.validateCSV('nonexistent.csv');
+      
+      expect(validation.isValid).toBe(false);
+      expect(validation.errors).toContain('File not found: nonexistent.csv');
+    });
+
+    // test detect empty file
+    it('should detect empty file', () => {
+      const validation = processor.validateCSV(emptyCsvFile);
+      
+      expect(validation.isValid).toBe(false);
+      expect(validation.errors).toContain('File is empty');
+    });
+
+    // test detect inconsistent column count
+    it('should detect inconsistent column counts', () => {
+      const validation = processor.validateCSV(invalidCsvFile);
+      
+      expect(validation.warnings.some(warning => warning.includes('inconsistent column counts'))).toBe(true);
+    });
+
+    // test warn about non-csv extension
+    it('should warn about non-csv extension', () => {
+      const txtFile = path.join(testDataDir, 'test.txt');
+      fs.writeFileSync(txtFile, 'name,age\nJohn,30');
+      
+      const validation = processor.validateCSV(txtFile);
+      expect(validation.warnings).toContain("File extension is 'txt', expected 'csv'");
+      
+      fs.unlinkSync(txtFile);
+    });
+  });
 });
