@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import { CSVProcessor } from '../src/processors/csvProcessor';
 
 describe('CSVProcessor', () => {
@@ -15,6 +17,62 @@ describe('CSVProcessor', () => {
         skipEmptyLines: true,
         encoding: 'utf8'
       });
+    });
+  });
+
+  describe('processFile', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+    const testCsvFile = path.join(testDataDir, 'test.csv');
+    const emptyCsvFile = path.join(testDataDir, 'empty.csv');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+
+      // create test CSV file
+      const testCsvContent = `name,age,city,country
+John Doe,30,New York,USA
+Jane Smith,25,London,UK
+Bob Johnson,35,Toronto,Canada
+Alice Brown,28,Sydney,Australia`;
+      fs.writeFileSync(testCsvFile, testCsvContent);
+
+      // create empty CSV file
+      fs.writeFileSync(emptyCsvFile, '');
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    it('should process a valid CSV file', async () => {
+      const result = await processor.processFile(testCsvFile);
+      
+      expect(result).toBeDefined();
+      expect(result.rowCount).toBe(4);
+      expect(result.headers).toEqual(['name', 'age', 'city', 'country']);
+      expect(result.fileName).toContain('test.csv');
+      expect(result.processingTime).toBeGreaterThan(0);
+      expect(result.data).toHaveLength(4);
+      expect(result.data[0]).toEqual({
+        name: 'John Doe',
+        age: '30',
+        city: 'New York',
+        country: 'USA'
+      });
+    });
+
+    it('should throw error for non-existent file', async () => {
+      await expect(processor.processFile('nonexistent.csv')).rejects.toThrow('File not found');
+    });
+
+    it('should throw error for empty file', async () => {
+      await expect(processor.processFile(emptyCsvFile)).rejects.toThrow('File is empty');
     });
   });
 });
