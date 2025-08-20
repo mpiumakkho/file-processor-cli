@@ -13,7 +13,11 @@
     "test": "jest",
     "hello": "ts-node src/hello-world/hello.ts",
     "test-csv": "ts-node src/cli/index.ts test-csv",
-    "convert-csv": "ts-node src/cli/index.ts convert-csv"
+    "convert-csv": "ts-node src/cli/index.ts convert-csv",
+    "test-excel": "ts-node src/cli/index.ts test-excel",
+    "convert-excel": "ts-node src/cli/index.ts convert-excel",
+    "test-xml": "ts-node src/cli/index.ts test-xml",
+    "convert-xml": "ts-node src/cli/index.ts convert-xml"
   },
   "keywords": [
     "cli",
