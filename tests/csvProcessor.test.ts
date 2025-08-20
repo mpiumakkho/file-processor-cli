@@ -375,13 +375,12 @@ Alice Brown,28,Sydney,Australia`;
       }
     });
 
-    // test handle processing malformed csv files gracefully
     it('should handle processing errors gracefully', async () => {
-      // test with a file that might cause csv-parser issues
+      // create bad csv file
       const malformedCsvFile = path.join(testDataDir, 'malformed.csv');
       fs.writeFileSync(malformedCsvFile, 'name,age\n"unclosed quote with\nnewline"incomplete');
       
-      // csv-parser is quite forgiving, so test that it at least processes something
+      // test that it still works somehow
       const result = await processor.processFile(malformedCsvFile);
       expect(result).toBeDefined();
       expect(result.headers).toContain('name');
@@ -389,17 +388,77 @@ Alice Brown,28,Sydney,Australia`;
       fs.unlinkSync(malformedCsvFile);
     });
 
-    // test handle validation errors gracefully
+    // test validation error handling
     it('should handle validation errors gracefully', () => {
       const nonReadableFile = path.join(testDataDir, 'nonreadable.csv');
       
-      // create file for testing validation
+      // create test file
       fs.writeFileSync(nonReadableFile, 'test data');
       
       const validation = processor.validateCSV(nonReadableFile);
       expect(validation).toBeDefined();
       
       fs.unlinkSync(nonReadableFile);
+    });
+  });
+
+  describe('Custom Delimiters', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test process semicolon-delimited csv file
+    it('should process semicolon-delimited CSV', async () => {
+      const semicolonCsv = path.join(testDataDir, 'semicolon.csv');
+      fs.writeFileSync(semicolonCsv, 'name;age;city\nJohn;30;NYC\nJane;25;LA');
+      
+      processor.setOptions({ delimiter: ';' });
+      const result = await processor.processFile(semicolonCsv);
+      
+      expect(result.rowCount).toBe(2);
+      expect(result.data[0]).toEqual({ name: 'John', age: '30', city: 'NYC' });
+      
+      fs.unlinkSync(semicolonCsv);
+    });
+
+    // test process tab-delimited csv file
+    it('should process tab-delimited CSV', async () => {
+      const tabCsv = path.join(testDataDir, 'tab.csv');
+      fs.writeFileSync(tabCsv, 'name\tage\tcity\nJohn\t30\tNYC\nJane\t25\tLA');
+      
+      processor.setOptions({ delimiter: '\t' });
+      const result = await processor.processFile(tabCsv);
+      
+      expect(result.rowCount).toBe(2);
+      expect(result.data[0]).toEqual({ name: 'John', age: '30', city: 'NYC' });
+      
+      fs.unlinkSync(tabCsv);
+    });
+
+    // test process pipe-delimited csv file
+    it('should process pipe-delimited CSV', async () => {
+      const pipeCsv = path.join(testDataDir, 'pipe.csv');
+      fs.writeFileSync(pipeCsv, 'name|age|city\nJohn|30|NYC\nJane|25|LA');
+      
+      processor.setOptions({ delimiter: '|' });
+      const result = await processor.processFile(pipeCsv);
+      
+      expect(result.rowCount).toBe(2);
+      expect(result.data[0]).toEqual({ name: 'John', age: '30', city: 'NYC' });
+      
+      fs.unlinkSync(pipeCsv);
     });
   });
 });
