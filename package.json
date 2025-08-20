@@ -11,7 +11,8 @@
     "start": "node dist/cli/index.js",
     "dev": "ts-node src/cli/index.ts",
     "test": "jest",
-    "hello": "ts-node src/hello-world/hello.ts"
+    "hello": "ts-node src/hello-world/hello.ts",
+    "test-csv": "ts-node src/cli/index.ts test-csv"
   },
   "keywords": [
     "cli",
