@@ -75,4 +75,35 @@ Alice Brown,28,Sydney,Australia`;
       await expect(processor.processFile(emptyCsvFile)).rejects.toThrow('File is empty');
     });
   });
+
+  describe('processString', () => {
+    // test processing csv data from string input (for API responses)
+    it('should process CSV string', async () => {
+      const csvString = `name,age\nJohn,30\nJane,25`;
+      const result = await processor.processString(csvString);
+      
+      expect(result.rowCount).toBe(2);
+      expect(result.headers).toEqual(['name', 'age']);
+      expect(result.data).toEqual([
+        { name: 'John', age: '30' },
+        { name: 'Jane', age: '25' }
+      ]);
+    });
+
+    // test error handling for empty or whitespace-only string
+    it('should throw error for empty string', async () => {
+      await expect(processor.processString('')).rejects.toThrow('CSV string is empty');
+      await expect(processor.processString('   ')).rejects.toThrow('CSV string is empty');
+    });
+
+    // test processing csv string with custom delimiter (semicolon instead of comma)
+    it('should process CSV string with custom delimiter', async () => {
+      processor.setOptions({ delimiter: ';' });
+      const csvString = `name;age\nJohn;30\nJane;25`;
+      const result = await processor.processString(csvString);
+      
+      expect(result.rowCount).toBe(2);
+      expect(result.data[0]).toEqual({ name: 'John', age: '30' });
+    });
+  });
 });
