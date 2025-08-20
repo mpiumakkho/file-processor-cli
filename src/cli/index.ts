@@ -253,4 +253,129 @@ program
     }
   });
 
+program
+  .command('test-xml')
+  .description('Test XML processing with sample file')
+  .argument('[file]', 'XML file to test', './data/samples/xml/covid-19-CLinical-trials-studies/NCT04320017.xml')
+  .option('-d, --depth <number>', 'Maximum depth for preview', '3')
+  .action(async (file, options) => {
+    try {
+      console.log(`Testing XML file: ${file}`);
+      
+      const processor = new XmlProcessor();
+      
+      // validate file first
+      const validation = processor.validateXml(file);
+      if (!validation.isValid) {
+        console.error('Validation errors:');
+        validation.errors.forEach(error => console.error(`- ${error}`));
+        return;
+      }
+      
+      if (validation.warnings.length > 0) {
+        console.log('Warnings:');
+        validation.warnings.forEach(warning => console.log(`- ${warning}`));
+      }
+      
+      // get stats
+      const stats = await processor.getStatistics(file);
+      console.log(`\nFile Statistics:`);
+      console.log(`- Root element: ${stats.rootElement}`);
+      console.log(`- Total elements: ${stats.totalElements}`);
+      console.log(`- Total attributes: ${stats.totalAttributes}`);
+      console.log(`- Max depth: ${stats.maxDepth}`);
+      console.log(`- Unique elements: ${stats.uniqueElements}`);
+      console.log(`- Unique attributes: ${stats.uniqueAttributes}`);
+      console.log(`- Has namespaces: ${stats.hasNamespaces ? 'Yes' : 'No'}`);
+      console.log(`- File size: ${(stats.fileSize / 1024).toFixed(2)} KB`);
+      
+      // get preview
+      const maxDepth = parseInt(options.depth);
+      console.log(`\nPreview (max depth ${maxDepth}):`);
+      const preview = await processor.getPreview(file, maxDepth);
+      console.log(JSON.stringify(preview.data, null, 2));
+      
+      // get element paths
+      const paths = await processor.getElementsPaths(file);
+      console.log(`\nElement Paths (first 10):`);
+      paths.slice(0, 10).forEach(path => console.log(`- ${path}`));
+      if (paths.length > 10) {
+        console.log(`... and ${paths.length - 10} more`);
+      }
+      
+      // process full file
+      console.log(`\nProcessing full file...`);
+      const startTime = Date.now();
+      const result = await processor.processFile(file);
+      const totalTime = Date.now() - startTime;
+      
+      console.log(`Processing completed in ${totalTime}ms`);
+      console.log(`Structure analyzed: ${result.structure.totalElements} elements, ${result.structure.maxDepth} max depth`);
+      
+    } catch (error) {
+      console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  });
+
+program
+  .command('convert-xml')
+  .description('Convert XML file to JSON format')
+  .argument('<input>', 'Input XML file path')
+  .option('-o, --output <path>', 'Output JSON file path (optional)')
+  .option('-d, --depth <number>', 'Maximum depth for preview', '3')
+  .action(async (input, options) => {
+    try {
+      console.log(`Converting XML to JSON: ${input}`);
+      
+      const processor = new XmlProcessor();
+      
+      // validate file first
+      const validation = processor.validateXml(input);
+      if (!validation.isValid) {
+        console.error('Validation errors:');
+        validation.errors.forEach(error => console.error(`- ${error}`));
+        return;
+      }
+      
+      if (validation.warnings.length > 0) {
+        console.log('Warnings:');
+        validation.warnings.forEach(warning => console.log(`- ${warning}`));
+      }
+      
+      // show preview
+      const maxDepth = parseInt(options.depth);
+      console.log(`\nPreview (max depth ${maxDepth}):`);
+      const preview = await processor.getPreview(input, maxDepth);
+      console.log(JSON.stringify(preview.data, null, 2));
+      
+      // convert to JSON
+      console.log('\nConverting to JSON...');
+      const startTime = Date.now();
+      
+      let result: string;
+      if (options.output) {
+        result = await processor.convertToJSON(input, options.output);
+        console.log(`JSON saved to: ${result}`);
+      } else {
+        result = await processor.convertToJSON(input);
+        console.log('\nJSON output:');
+        console.log(result);
+      }
+      
+      const totalTime = Date.now() - startTime;
+      console.log(`\nConversion completed in ${totalTime}ms`);
+      
+      // show stats
+      const stats = await processor.getStatistics(input);
+      console.log(`\nFile Statistics:`);
+      console.log(`- Root element: ${stats.rootElement}`);
+      console.log(`- Total elements: ${stats.totalElements}`);
+      console.log(`- Total attributes: ${stats.totalAttributes}`);
+      console.log(`- File size: ${(stats.fileSize / 1024).toFixed(2)} KB`);
+      
+    } catch (error) {
+      console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  });
+
 program.parse();

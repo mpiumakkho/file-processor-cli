@@ -1,0 +1,294 @@
+{
+  "fileName": "NCT04320017.xml",
+  "structure": {
+    "rootElement": "clinical_study",
+    "totalElements": 139,
+    "maxDepth": 4,
+    "namespaces": [],
+    "elements": [
+      "clinical_study",
+      "$",
+      "rank",
+      "required_header",
+      "download_date",
+      "link_text",
+      "url",
+      "id_info",
+      "org_study_id",
+      "nct_id",
+      "brief_title",
+      "acronym",
+      "official_title",
+      "sponsors",
+      "lead_sponsor",
+      "agency",
+      "agency_class",
+      "source",
+      "oversight_info",
+      "has_dmc",
+      "is_fda_regulated_drug",
+      "is_fda_regulated_device",
+      "brief_summary",
+      "textblock",
+      "overall_status",
+      "start_date",
+      "_",
+      "type",
+      "completion_date",
+      "primary_completion_date",
+      "study_type",
+      "has_expanded_access",
+      "study_design_info",
+      "observational_model",
+      "time_perspective",
+      "primary_outcome",
+      "measure",
+      "time_frame",
+      "description",
+      "secondary_outcome",
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "number_of_groups",
+      "enrollment",
+      "condition",
+      "arm_group",
+      "arm_group_label",
+      "intervention",
+      "intervention_type",
+      "intervention_name",
+      "eligibility",
+      "study_pop",
+      "sampling_method",
+      "criteria",
+      "gender",
+      "minimum_age",
+      "maximum_age",
+      "healthy_volunteers",
+      "overall_contact",
+      "last_name",
+      "phone",
+      "phone_ext",
+      "email",
+      "location",
+      "facility",
+      "name",
+      "address",
+      "city",
+      "zip",
+      "country",
+      "status",
+      "contact",
+      "location_countries",
+      "verification_date",
+      "study_first_submitted",
+      "study_first_submitted_qc",
+      "study_first_posted",
+      "last_update_submitted",
+      "last_update_submitted_qc",
+      "last_update_posted",
+      "responsible_party",
+      "responsible_party_type",
+      "investigator_affiliation",
+      "investigator_full_name",
+      "investigator_title",
+      "keyword",
+      "condition_browse",
+      "mesh_term",
+      "patient_data",
+      "sharing_ipd"
+    ],
+    "attributes": [
+      "rank",
+      "type"
+    ]
+  },
+  "data": {
+    "clinical_study": {
+      "$": {
+        "rank": "1253"
+      },
+      "required_header": {
+        "download_date": "ClinicalTrials.gov processed this data on April 14, 2021",
+        "link_text": "Link to the current ClinicalTrials.gov record.",
+        "url": "https://clinicaltrials.gov/show/NCT04320017"
+      },
+      "id_info": {
+        "org_study_id": "CIC1421-20-05",
+        "nct_id": "NCT04320017"
+      },
+      "brief_title": "Joint Use of Electrocardiogram and Transthoracic Echocardiography With Other Clinico-biological Parameters in an Observational Study to Monitor Cardio-vascular Events and Predict Outcomes in Patients Diagnosed With COVID-19",
+      "acronym": "JOCOVID",
+      "official_title": "Joint Use of Electrocardiogram and Transthoracic Echocardiography With Other Clinico-biological Parameters in an Observational Study to Monitor Cardio-vascular Events and Predict Outcomes in Patients Diagnosed With COVID-19",
+      "sponsors": {
+        "lead_sponsor": {
+          "agency": "Groupe Hospitalier Pitie-Salpetriere",
+          "agency_class": "Other"
+        }
+      },
+      "source": "Groupe Hospitalier Pitie-Salpetriere",
+      "oversight_info": {
+        "has_dmc": "No",
+        "is_fda_regulated_drug": "No",
+        "is_fda_regulated_device": "No"
+      },
+      "brief_summary": {
+        "textblock": "COVID-19 outbreak is often lethal. Mortality has been associated with several cardio-vascular\r\n      risk factors such as diabetes, obesity, hypertension and tobacco use. Other\r\n      clinico-biological features predictive of mortality or transfer to Intensive Care Unit are\r\n      also needed. Cases of myocarditis have also been reported with COVID-19.\r\n\r\n      Cardio-vascular events have possibly been highly underestimated. The study proposes to\r\n      systematically collect cardio-vascular data to study the incidence of myocarditis and\r\n      coronaropathy events during COVID-19 infection.We will also assess predictive factors for\r\n      transfer in Intensive Care Unit or death."
+      },
+      "overall_status": "Recruiting",
+      "start_date": {
+        "_": "March 20, 2020",
+        "$": {
+          "type": "Actual"
+        }
+      },
+      "completion_date": {
+        "_": "May 20, 2020",
+        "$": {
+          "type": "Anticipated"
+        }
+      },
+      "primary_completion_date": {
+        "_": "May 20, 2020",
+        "$": {
+          "type": "Anticipated"
+        }
+      },
+      "study_type": "Observational",
+      "has_expanded_access": "No",
+      "study_design_info": {
+        "observational_model": "Cohort",
+        "time_perspective": "Prospective"
+      },
+      "primary_outcome": {
+        "measure": "Incidence of acute myocardial events in COVID-19 population at baseline and during hospital stay",
+        "time_frame": "ECG and concomitant troponine at day 1 after admission at day 1, day 3 day 6 the first week after admission, and then at day 14 and before the patient is discharged (up to 20 days)",
+        "description": "Viral myocarditis or myocardial infarction or stenosis detected with ST segment elevation or depression associated with troponine elevation and transthoracic echocardiography"
+      },
+      "secondary_outcome": [
+        {
+          "measure": "Description of cardiovascular outcomes in the cohort",
+          "time_frame": "During hospital admission (up to 20 days)",
+          "description": "Cardio-vascular events including but not limited to: myocardial infarction or stenosis, stroke, pulmonary embolism, deep vein thrombosis, ventricular dysfunctio, conduction disorders and sudden death"
+        },
+        {
+          "measure": "Prognosis role of baseline cardio-vascular caracteristics on patients survival",
+          "time_frame": "1st day of admission",
+          "description": "Biological biomarkers including but not limited to: baseline troponine T, D-dimers, NT-proBNP, creatinine phosphokinase, creatininemia, ionogram, renine-angiotensin aldosterone system profiling, glycemia (fasting), HbA1c, steroid profiling, lipid profiling"
+        },
+        {
+          "measure": "Prediction of cardio-vascular events with baseline characteristics",
+          "time_frame": "Baseline on first day of admission"
+        },
+        {
+          "measure": "Characterization of inflammation on cardio-vascular outcomes",
+          "time_frame": "Baseline and at day 3 day 6 day 14 and before patient is discharged (up to 20 days)",
+          "description": "Biological markers including but not limited to: C reactive protein, procalcitonine, fibrinogen, interleukin-6"
+        },
+        {
+          "measure": "Prognosis role of baseline clinico-biological caracteristics on patients transfer to ICU and survival",
+          "time_frame": "Baseline and at day 3 day 6 day 14 and before patient is discharged (up to 20 days)",
+          "description": "clinical features at baseline: WHO performans status comorbidities and treatments Biological markers including but not limited to: full blood count, C reactive protein, procalcitonine, fibrinogen, interleukin-6, troponin and brain natriuretic peptide"
+        }
+      ],
+      "number_of_groups": "1",
+      "enrollment": {
+        "_": "500",
+        "$": {
+          "type": "Anticipated"
+        }
+      },
+      "condition": [
+        "COVID-19",
+        "Myocardial Injury",
+        "Myocarditis"
+      ],
+      "arm_group": {
+        "arm_group_label": "COVID-19 patients",
+        "description": "Patients diagnosed with COVID-19 by PCR done on nasal sample."
+      },
+      "intervention": {
+        "intervention_type": "Diagnostic Test",
+        "intervention_name": "Electrocardiogram, transthoracic echocardiography and clinico-biological parameters in routine care",
+        "description": "12 derivations electrocardiogram done at baseline and repeated every 3 days\r\ntransthoracic echocardiography at baseline\r\nclinical features at baseline: WHO performans status comorbidities and treatments\r\nbiological results in routine care, such as baseline full blood count, inflammation markers: C-reactive protein, procalcitonin, interleukin-6 and ferritin, coagulation and troponin and brain natriuretic peptide",
+        "arm_group_label": "COVID-19 patients"
+      },
+      "eligibility": {
+        "study_pop": {
+          "textblock": "All patients admitted in Pitié-Salpêtrière hospital will be eligible, if the\r\n        electrocardiogram and the transthoracic echocardiography is technically feasible."
+        },
+        "sampling_method": "Non-Probability Sample",
+        "criteria": {
+          "textblock": "Inclusion Criteria:\r\n\r\n        - COVID-19 positive patients admitted in a ward identified by positive PCR on nasal swab\r\n        samples\r\n\r\n        Exclusion Criteria:\r\n\r\n        - Patients who refused the use of their routine care data after information by\r\n        investigators."
+        },
+        "gender": "All",
+        "minimum_age": "16 Years",
+        "maximum_age": "N/A",
+        "healthy_volunteers": "No"
+      },
+      "overall_contact": {
+        "last_name": "Joe-Elie Salem, MD-PhD",
+        "phone": "01 42 17 85 31",
+        "phone_ext": "+33",
+        "email": "joe-elie.salem@aphp.fr"
+      },
+      "location": {
+        "facility": {
+          "name": "Clinical Investigation Center Pitié-Salpêtrière",
+          "address": {
+            "city": "Paris",
+            "zip": "75013",
+            "country": "France"
+          }
+        },
+        "status": "Recruiting",
+        "contact": {
+          "last_name": "Joe-Elie Salem, MD-PhD",
+          "phone": "01 42 17 85 31",
+          "phone_ext": "+33",
+          "email": "joe-elie.salem@aphp.fr"
+        }
+      },
+      "location_countries": {
+        "country": "France"
+      },
+      "verification_date": "April 2020",
+      "study_first_submitted": "March 20, 2020",
+      "study_first_submitted_qc": "March 23, 2020",
+      "study_first_posted": {
+        "_": "March 24, 2020",
+        "$": {
+          "type": "Actual"
+        }
+      },
+      "last_update_submitted": "April 20, 2020",
+      "last_update_submitted_qc": "April 20, 2020",
+      "last_update_posted": {
+        "_": "April 22, 2020",
+        "$": {
+          "type": "Actual"
+        }
+      },
+      "responsible_party": {
+        "responsible_party_type": "Principal Investigator",
+        "investigator_affiliation": "Groupe Hospitalier Pitie-Salpetriere",
+        "investigator_full_name": "Joe Elie Salem",
+        "investigator_title": "Head of Investigations in Clinical Investigation Centers Paris-Est"
+      },
+      "keyword": [
+        "Coronavirus",
+        "Heart conditions",
+        "Cardio-vascular outcomes"
+      ],
+      "condition_browse": {
+        "mesh_term": "Myocarditis"
+      },
+      "patient_data": {
+        "sharing_ipd": "Undecided"
+      }
+    }
+  },
+  "processingTime": 14
+}
