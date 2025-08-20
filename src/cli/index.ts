@@ -46,4 +46,64 @@ program
     }
   });
 
+program
+  .command('convert-csv')
+  .description('Convert CSV file to JSON format')
+  .argument('<input>', 'Input CSV file path')
+  .option('-o, --output <path>', 'Output JSON file path (optional)')
+  .option('-p, --preview <rows>', 'Show preview of first N rows', '5')
+  .action(async (input, options) => {
+    try {
+      console.log(`Converting CSV to JSON: ${input}`);
+      
+      const processor = new CSVProcessor();
+      
+      // validate file first
+      const validation = processor.validateCSV(input);
+      if (!validation.isValid) {
+        console.error('Validation errors:');
+        validation.errors.forEach(error => console.error(`- ${error}`));
+        return;
+      }
+      
+      if (validation.warnings.length > 0) {
+        console.log('Warnings:');
+        validation.warnings.forEach(warning => console.log(`- ${warning}`));
+      }
+      
+      // show preview
+      const previewRows = parseInt(options.preview);
+      console.log(`\nPreview (first ${previewRows} rows):`);
+      const preview = await processor.getPreview(input, previewRows);
+      console.log(JSON.stringify(preview.data, null, 2));
+      
+      // convert to JSON
+      console.log('\nConverting to JSON...');
+      const startTime = Date.now();
+      
+      let result: string;
+      if (options.output) {
+        result = await processor.convertToJSON(input, options.output);
+        console.log(`JSON saved to: ${result}`);
+      } else {
+        result = await processor.convertToJSON(input);
+        console.log('\nJSON output:');
+        console.log(result);
+      }
+      
+      const totalTime = Date.now() - startTime;
+      console.log(`\nConversion completed in ${totalTime}ms`);
+      
+      // show stats
+      const stats = await processor.getStatistics(input);
+      console.log(`\nFile Statistics:`);
+      console.log(`- Total rows: ${stats.totalRows}`);
+      console.log(`- Total columns: ${stats.totalColumns}`);
+      console.log(`- File size: ${(stats.fileSize / 1024).toFixed(2)} KB`);
+      
+    } catch (error) {
+      console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  });
+
 program.parse();

@@ -12,7 +12,8 @@
     "dev": "ts-node src/cli/index.ts",
     "test": "jest",
     "hello": "ts-node src/hello-world/hello.ts",
-    "test-csv": "ts-node src/cli/index.ts test-csv"
+    "test-csv": "ts-node src/cli/index.ts test-csv",
+    "convert-csv": "ts-node src/cli/index.ts convert-csv"
   },
   "keywords": [
     "cli",
@@ -34,6 +35,9 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@types/xml2js": "^0.4.14"
+    "@types/jest": "^30.0.0",
+    "@types/xml2js": "^0.4.14",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.1"
   }
 }

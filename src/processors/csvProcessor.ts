@@ -56,16 +56,17 @@ export class CSVProcessor {
     return new Promise((resolve, reject) => {
       const results: Record<string, any>[] = [];
       let headers: string[] = [];
+      let isFirstRow = true;
 
       fs.createReadStream(filePath, { encoding: this.options.encoding })
         .pipe(csv({
-          separator: this.options.delimiter || ',',
-          headers: true
+          separator: this.options.delimiter || ','
         }))
-        .on('headers', (headerList: string[]) => {
-          headers = headerList;
-        })
         .on('data', (data: Record<string, any>) => {
+          if (isFirstRow && this.options.headers !== false) {
+            headers = Object.keys(data);
+            isFirstRow = false;
+          }
           results.push(data);
         })
         .on('end', () => {
@@ -104,14 +105,10 @@ export class CSVProcessor {
 
       readable
         .pipe(csv({
-          separator: this.options.delimiter || ',',
-          headers: this.options.headers || true
+          separator: this.options.delimiter || ','
         }))
-        .on('headers', (headerList: string[]) => {
-          headers = headerList;
-        })
         .on('data', (data: Record<string, any>) => {
-          if (isFirstRow && !this.options.headers) {
+          if (isFirstRow && this.options.headers !== false) {
             headers = Object.keys(data);
             isFirstRow = false;
           }
