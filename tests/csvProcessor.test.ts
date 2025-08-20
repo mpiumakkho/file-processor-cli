@@ -302,4 +302,59 @@ Alice Brown,28,Sydney,Australia`;
       expect(preview.data).toHaveLength(4);
     });
   });
+
+  describe('getStatistics', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+    const testCsvFile = path.join(testDataDir, 'test.csv');
+    const largeCsvFile = path.join(testDataDir, 'large.csv');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+
+      // create test CSV file
+      const testCsvContent = `name,age,city,country
+John Doe,30,New York,USA
+Jane Smith,25,London,UK
+Bob Johnson,35,Toronto,Canada
+Alice Brown,28,Sydney,Australia`;
+      fs.writeFileSync(testCsvFile, testCsvContent);
+
+      // create large CSV file for statistics testing
+      let largeCsvContent = 'id,name,value,description\n';
+      for (let i = 1; i <= 100; i++) {
+        largeCsvContent += `${i},Item ${i},${i * 10},Description for item ${i}\n`;
+      }
+      fs.writeFileSync(largeCsvFile, largeCsvContent);
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test get file statistics from normal csv file
+    it('should get file statistics', async () => {
+      const stats = await processor.getStatistics(testCsvFile);
+      
+      expect(stats.totalRows).toBe(4);
+      expect(stats.totalColumns).toBe(4);
+      expect(stats.headers).toEqual(['name', 'age', 'city', 'country']);
+      expect(stats.fileSize).toBeGreaterThan(0);
+      expect(stats.encoding).toBe('utf8');
+    });
+
+    // test get statistic for large csv file
+    it('should get statistics for large file', async () => {
+      const stats = await processor.getStatistics(largeCsvFile);
+      
+      expect(stats.totalRows).toBe(100);
+      expect(stats.totalColumns).toBe(4);
+      expect(stats.fileSize).toBeGreaterThan(1000);
+    });
+  });
 });
