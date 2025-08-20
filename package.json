@@ -1,0 +1,38 @@
+{
+  "name": "file-processor-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for processing CSV, Excel, and XML files",
+  "main": "dist/cli/index.js",
+  "bin": {
+    "file-processor": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli/index.js",
+    "dev": "ts-node src/cli/index.ts",
+    "test": "jest",
+    "hello": "ts-node src/hello-world/hello.ts"
+  },
+  "keywords": [
+    "cli",
+    "csv",
+    "excel",
+    "xml",
+    "file-processing",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^24.3.0",
+    "commander": "^14.0.0",
+    "csv-parser": "^3.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "xlsx": "^0.18.5",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/xml2js": "^0.4.14"
+  }
+}
