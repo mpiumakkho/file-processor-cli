@@ -242,4 +242,64 @@ Alice Brown,28,Sydney,Australia`;
       fs.unlinkSync(outputPath);
     });
   });
+
+  describe('getPreview', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+    const testCsvFile = path.join(testDataDir, 'test.csv');
+    const largeCsvFile = path.join(testDataDir, 'large.csv');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+
+      // create test CSV file
+      const testCsvContent = `name,age,city,country
+John Doe,30,New York,USA
+Jane Smith,25,London,UK
+Bob Johnson,35,Toronto,Canada
+Alice Brown,28,Sydney,Australia`;
+      fs.writeFileSync(testCsvFile, testCsvContent);
+
+      // create large CSV file for preview testing
+      let largeCsvContent = 'id,name,value,description\n';
+      for (let i = 1; i <= 10; i++) {
+        largeCsvContent += `${i},Item ${i},${i * 10},Description for item ${i}\n`;
+      }
+      fs.writeFileSync(largeCsvFile, largeCsvContent);
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test default preview (5 rows) from large file
+    it('should get default preview (5 rows)', async () => {
+      const preview = await processor.getPreview(largeCsvFile);
+      
+      expect(preview.rowCount).toBe(5);
+      expect(preview.data).toHaveLength(5);
+      expect(preview.headers).toEqual(['id', 'name', 'value', 'description']);
+    });
+
+    // test custom preview (3 rows)
+    it('should get custom preview (3 rows)', async () => {
+      const preview = await processor.getPreview(testCsvFile, 3);
+      
+      expect(preview.rowCount).toBe(3);
+      expect(preview.data).toHaveLength(3);
+    });
+
+    // test handle preview larger than actual file size
+    it('should handle preview larger than file', async () => {
+      const preview = await processor.getPreview(testCsvFile, 10);
+      
+      expect(preview.rowCount).toBe(4); // file has 4 row
+      expect(preview.data).toHaveLength(4);
+    });
+  });
 });
