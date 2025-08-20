@@ -185,4 +185,61 @@ Bob Johnson,35,Toronto,Canada`;
       fs.unlinkSync(txtFile);
     });
   });
+
+  describe('convertToJSON', () => {
+    const testDataDir = path.join(__dirname, 'test-data');
+    const testCsvFile = path.join(testDataDir, 'test.csv');
+
+    beforeAll(() => {
+      // create test data directory
+      if (!fs.existsSync(testDataDir)) {
+        fs.mkdirSync(testDataDir, { recursive: true });
+      }
+
+      // create test csv file
+      const testCsvContent = `name,age,city,country
+John Doe,30,New York,USA
+Jane Smith,25,London,UK
+Bob Johnson,35,Toronto,Canada
+Alice Brown,28,Sydney,Australia`;
+      fs.writeFileSync(testCsvFile, testCsvContent);
+    });
+
+    afterAll(() => {
+      // clean up test files
+      if (fs.existsSync(testDataDir)) {
+        fs.rmSync(testDataDir, { recursive: true, force: true });
+      }
+    });
+
+    // test convert CSV file to JSON string format
+    it('should convert CSV to JSON string', async () => {
+      const jsonString = await processor.convertToJSON(testCsvFile);
+      const jsonData = JSON.parse(jsonString);
+      
+      expect(Array.isArray(jsonData)).toBe(true);
+      expect(jsonData).toHaveLength(4);
+      expect(jsonData[0]).toEqual({
+        name: 'John Doe',
+        age: '30',
+        city: 'New York',
+        country: 'USA'
+      });
+    });
+
+    // test convert CSV file to JSON file output
+    it('should convert CSV to JSON file', async () => {
+      const outputPath = path.join(testDataDir, 'output.json');
+      const result = await processor.convertToJSON(testCsvFile, outputPath);
+      
+      expect(result).toBe(outputPath);
+      expect(fs.existsSync(outputPath)).toBe(true);
+      
+      const jsonContent = fs.readFileSync(outputPath, 'utf8');
+      const jsonData = JSON.parse(jsonContent);
+      expect(jsonData).toHaveLength(4);
+      
+      fs.unlinkSync(outputPath);
+    });
+  });
 });
