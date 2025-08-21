@@ -1,5 +1,5 @@
-import * as XLSX from 'xlsx';
 import * as fs from 'fs';
+import * as XLSX from 'xlsx';
 
 export interface ExcelProcessorOptions {
   encoding?: BufferEncoding;
@@ -49,7 +49,7 @@ export class ExcelProcessor {
     this.options = {
       encoding: 'binary',
       sheetIndex: 0,
-      // Don't set header by default - let XLSX use first row as header automatically
+      // don't set header by default - let XLSX use first row as header automatically
       ...options
     };
   }
@@ -251,7 +251,7 @@ export class ExcelProcessor {
     const originalHeader = this.options.header;
     const originalSheetName = this.options.sheetName;
     
-    // Set options for preview - use default behavior for headers
+    // set options for preview - use default behavior for headers
     if (sheetName) {
       this.options.sheetName = sheetName;
     }
@@ -264,7 +264,7 @@ export class ExcelProcessor {
         data: fullResult.data.slice(0, rows)
       };
     } finally {
-      // Restore original options
+      // restore original options
       if (originalHeader !== undefined) {
         this.options.header = originalHeader;
       } else {

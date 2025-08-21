@@ -46,12 +46,12 @@ describe('ExcelProcessor', () => {
     const emptyExcelFile = path.join(testDataDir, 'empty.xlsx');
 
     beforeAll(() => {
-      // Create test data directory
+      // create test data directory
       if (!fs.existsSync(testDataDir)) {
         fs.mkdirSync(testDataDir, { recursive: true });
       }
 
-      // Create test Excel file
+      // create test Excel file
       const workbook = XLSX.utils.book_new();
       const worksheetData = [
         ['Name', 'Age', 'City', 'Country'],
@@ -63,7 +63,7 @@ describe('ExcelProcessor', () => {
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
       XLSX.writeFile(workbook, testExcelFile);
 
-      // Create empty Excel file (with at least one empty sheet)
+      // create empty Excel file (with at least one empty sheet)
       const emptyWorkbook = XLSX.utils.book_new();
       const emptySheet = XLSX.utils.aoa_to_sheet([]);
       XLSX.utils.book_append_sheet(emptyWorkbook, emptySheet, 'Empty');
@@ -71,7 +71,7 @@ describe('ExcelProcessor', () => {
     });
 
     afterAll(() => {
-      // Clean up test files
+      // clean up test files
       if (fs.existsSync(testDataDir)) {
         fs.rmSync(testDataDir, { recursive: true, force: true });
       }
@@ -154,7 +154,7 @@ describe('ExcelProcessor', () => {
         fs.mkdirSync(testDataDir, { recursive: true });
       }
 
-      // Create test Excel file
+      // create test Excel file
       const workbook = XLSX.utils.book_new();
       const worksheetData = [['Name', 'Age'], ['John', 30]];
       const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
