@@ -19,7 +19,11 @@
     "test-xml": "ts-node src/cli/index.ts test-xml",
     "convert-xml": "ts-node src/cli/index.ts convert-xml",
     "detect": "ts-node src/cli/index.ts detect",
-    "process": "ts-node src/cli/index.ts process"
+    "process": "ts-node src/cli/index.ts process",
+    "test:unit": "jest --testPathIgnorePatterns=integration.test.ts --testPathIgnorePatterns=performance.test.ts",
+    "test:integration": "jest tests/integration.test.ts --forceExit --testTimeout=30000",
+    "test:performance": "jest tests/performance.test.ts --forceExit --testTimeout=60000",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:performance"
   },
   "keywords": [
     "cli",
