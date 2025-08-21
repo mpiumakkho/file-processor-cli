@@ -17,7 +17,9 @@
     "test-excel": "ts-node src/cli/index.ts test-excel",
     "convert-excel": "ts-node src/cli/index.ts convert-excel",
     "test-xml": "ts-node src/cli/index.ts test-xml",
-    "convert-xml": "ts-node src/cli/index.ts convert-xml"
+    "convert-xml": "ts-node src/cli/index.ts convert-xml",
+    "detect": "ts-node src/cli/index.ts detect",
+    "process": "ts-node src/cli/index.ts process"
   },
   "keywords": [
     "cli",
@@ -27,7 +29,7 @@
     "file-processing",
     "typescript"
   ],
-  "author": "Your Name",
+  "author": "Marut",
   "license": "MIT",
   "dependencies": {
     "@types/node": "^24.3.0",
