@@ -1,6 +1,6 @@
-import { XmlProcessor, XmlProcessorOptions } from '../src/processors/xmlProcessor';
 import * as fs from 'fs';
 import * as path from 'path';
+import { XmlProcessor, XmlProcessorOptions } from '../src/processors/xmlProcessor';
 
 describe('XmlProcessor', () => {
   let processor: XmlProcessor;
@@ -39,7 +39,7 @@ describe('XmlProcessor', () => {
       const options = processor.getOptions();
       expect(options.explicitArray).toBe(true);
       expect(options.mergeAttrs).toBe(true);
-      expect(options.trim).toBe(true); // Should preserve existing options
+      expect(options.trim).toBe(true); // should preserve existing options
     });
   });
 
@@ -48,12 +48,12 @@ describe('XmlProcessor', () => {
     const emptyXmlFile = path.join(testDataDir, 'empty.xml');
 
     beforeAll(() => {
-      // Create test data directory
+      // create test data directory
       if (!fs.existsSync(testDataDir)) {
         fs.mkdirSync(testDataDir, { recursive: true });
       }
 
-      // Create test XML file
+      // create test XML file
       const testXmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <catalog>
   <book id="1" category="fiction">
@@ -75,12 +75,12 @@ describe('XmlProcessor', () => {
 </catalog>`;
       fs.writeFileSync(testXmlFile, testXmlContent, 'utf8');
 
-      // Create empty XML file
+      // create empty XML file
       fs.writeFileSync(emptyXmlFile, '', 'utf8');
     });
 
     afterAll(() => {
-      // Clean up test files
+      // clean up test files
       if (fs.existsSync(testDataDir)) {
         fs.rmSync(testDataDir, { recursive: true, force: true });
       }
@@ -111,7 +111,7 @@ describe('XmlProcessor', () => {
       const result = await processor.processFile(testXmlFile);
       
       expect(result.structure.attributes.size).toBeGreaterThan(0);
-      // Should detect attributes like 'id', 'category', 'currency'
+      // should detect attributes like 'id', 'category', 'currency'
       expect(result.structure.attributes.has('id')).toBe(true);
       expect(result.structure.attributes.has('category')).toBe(true);
     });
@@ -127,21 +127,21 @@ describe('XmlProcessor', () => {
         fs.mkdirSync(testDataDir, { recursive: true });
       }
 
-      // Valid XML
+      // valid XML
       const validXml = `<?xml version="1.0"?>
 <root>
   <item>Test</item>
 </root>`;
       fs.writeFileSync(testXmlFile, validXml, 'utf8');
 
-      // Invalid XML (no closing tag)
+      // invalid XML  
       const invalidXml = `<?xml version="1.0"?>
 <root>
   <item>Test</item>
 `;
       fs.writeFileSync(invalidXmlFile, invalidXml, 'utf8');
 
-      // Malformed XML (non-XML content)
+      // malformed XML (non-XML content)
       const malformedXml = `This is not XML content
 <root><item>Test</item></root>`;
       fs.writeFileSync(malformedXmlFile, malformedXml, 'utf8');
@@ -327,7 +327,7 @@ describe('XmlProcessor', () => {
       const preview = await processor.getPreview(testXmlFile, 2);
       
       expect(preview).toBeDefined();
-      expect(preview.elements.length).toBeLessThanOrEqual(20); // Limited to 20 elements
+      expect(preview.elements.length).toBeLessThanOrEqual(20); // limit 20 elements
       expect(JSON.stringify(preview.data)).toContain('truncated for preview');
     });
 

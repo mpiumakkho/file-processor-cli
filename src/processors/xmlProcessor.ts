@@ -154,7 +154,7 @@ export class XmlProcessor {
 
       const content = fs.readFileSync(filePath, 'utf8');
       
-      // Basic XML validation checks
+      // basic XML validation checks
       if (!content.trim().startsWith('<')) {
         result.errors.push('Invalid XML: File does not start with an XML tag');
         result.isValid = false;
@@ -164,12 +164,12 @@ export class XmlProcessor {
         result.warnings.push('XML file might be self-closing only or malformed');
       }
 
-      // Check for common XML declaration
+      // check common XML declaration
       if (!content.startsWith('<?xml')) {
         result.warnings.push('XML file is missing XML declaration (<?xml version="1.0"?>)');
       }
 
-      // Try to parse to catch syntax errors
+      // try to parse to catch syntax errors
       try {
         this.parser.parseString(content, (err) => {
           if (err) {
@@ -246,7 +246,7 @@ export class XmlProcessor {
     return {
       ...result,
       data: previewData,
-      elements: result.elements.slice(0, 20) // Limit to first 20 elements for preview
+      elements: result.elements.slice(0, 20) // limit first 20 elements for preview
     };
   }
 
@@ -269,7 +269,7 @@ export class XmlProcessor {
         structure.elements.add(key);
         structure.totalElements++;
 
-        // Check for namespaces
+        // check for namespaces
         if (key.includes(':')) {
           const namespace = key.split(':')[0];
           if (!structure.namespaces.includes(namespace)) {
@@ -277,7 +277,7 @@ export class XmlProcessor {
           }
         }
 
-        // Check for attributes (usually prefixed with $ in xml2js)
+        // check for attributes (usually prefixed with $ in xml2js)
         if (key === '$' && typeof value === 'object' && value !== null) {
           Object.keys(value as Record<string, any>).forEach(attr => structure.attributes.add(attr));
         }
@@ -316,17 +316,17 @@ export class XmlProcessor {
           path: currentPath
         };
 
-        // Handle attributes
+        // handle attributes
         if (typeof value === 'object' && value !== null && '$' in value) {
           element.attributes = (value as any)['$'] as Record<string, any>;
         }
 
-        // Handle text content
+        // handle text content
         if (typeof value === 'string' || typeof value === 'number') {
           element.value = String(value);
         }
 
-        // Handle children
+        // handle children
         if (typeof value === 'object' && value !== null) {
           const children: XmlElement[] = [];
           this.flattenElements(value, currentPath, children);
@@ -376,7 +376,8 @@ export class XmlProcessor {
     const result: any = {};
     let count = 0;
     for (const [key, value] of Object.entries(data)) {
-      if (count >= 5) { // Limit to 5 properties per level in preview
+      // limit 5 properties per level in preview
+      if (count >= 5) { 
         result['...'] = `${Object.keys(data).length - count} more properties`;
         break;
       }
